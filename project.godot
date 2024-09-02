@@ -10,10 +10,10 @@ config_version=5
 
 [application]
 
-config/name="particle_video"
+config/name="particle systems"
 run/main_scene="res://2d/2d.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://2d/particles/drop.svg"
 
 [display]
 
