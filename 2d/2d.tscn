@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://csy4cnun445ll"]
+[gd_scene load_steps=35 format=3 uid="uid://csy4cnun445ll"]
 
 [ext_resource type="PackedScene" uid="uid://c2j36m8yplc10" path="res://2d/sky.tscn" id="1_xryot"]
 [ext_resource type="PackedScene" uid="uid://c7crietgpayka" path="res://2d/mr_g_2d/mr_g_2d.tscn" id="2_17ouh"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dna0b10cybbc7" path="res://2d/portal/portal.tscn" id="5_cswu5"]
 [ext_resource type="Texture2D" uid="uid://beavff75c01jb" path="res://2d/campfire/campfire_base.png" id="6_xr7mf"]
 [ext_resource type="Texture2D" uid="uid://dgeu415vt1niw" path="res://2d/particles/smoke_single.png" id="7_jjcs8"]
+[ext_resource type="Texture2D" uid="uid://h336p4t83xnv" path="res://2d/particles/drop.svg" id="9_7wmhj"]
 [ext_resource type="Texture2D" uid="uid://dl1qf45csr2rn" path="res://2d/particles/flamelet.png" id="9_mbcu3"]
 
 [sub_resource type="Shader" id="Shader_gbrrg"]
@@ -138,6 +139,35 @@ size = Vector2(1920, 500)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejnsg"]
 size = Vector2(184, 1040)
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ngtcx"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1000, 1, 1)
+direction = Vector3(0.1, 1, 0)
+spread = 0.0
+initial_velocity_min = 600.0
+initial_velocity_max = 850.0
+gravity = Vector3(0, 98, 0)
+scale_min = 0.2
+collision_mode = 2
+sub_emitter_mode = 3
+sub_emitter_amount_at_collision = 4
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_i2ue4"]
+polygon = PackedVector2Array(-27, 834, 1922, 841, 1924, 1105, -25, 1107)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q012g"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 20.0
+initial_velocity_min = 50.0
+initial_velocity_max = 60.0
+gravity = Vector3(0, 98, 0)
+scale_min = 0.1
+scale_max = 0.2
+
 [node name="Node2D" type="Node2D"]
 position = Vector2(-67, 0)
 
@@ -218,3 +248,26 @@ position = Vector2(1930, -4)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightCollider"]
 position = Vector2(-110, 426)
 shape = SubResource("RectangleShape2D_ejnsg")
+
+[node name="Rain" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.470588)
+position = Vector2(827, -366)
+amount = 2000
+sub_emitter = NodePath("../Splash")
+process_material = SubResource("ParticleProcessMaterial_ngtcx")
+texture = ExtResource("9_7wmhj")
+lifetime = 8.0
+preprocess = 30.0
+collision_base_size = 5.0
+visibility_rect = Rect2(-900, 0, 1800, 900)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_i2ue4")
+
+[node name="Splash" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.470588)
+position = Vector2(748, 838)
+amount = 6400
+process_material = SubResource("ParticleProcessMaterial_q012g")
+texture = ExtResource("9_7wmhj")
+explosiveness = 1.0
